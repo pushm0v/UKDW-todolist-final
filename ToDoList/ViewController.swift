@@ -79,7 +79,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     func deleteTodo(sender: UIButton) {
         let rowNumber = sender.tag
         let data = self.getDataFromArray(rowNumber: rowNumber)
-        if let id = data["id"].int {
+        if let id = data["_id"].string {
             self.networkService.deleteTodoList(id: id, success: { _ in
                 self.showAlert(title: "Success", message: "Data has been deleted!")
                 self.resetForm()
@@ -105,7 +105,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     func doSave() {
         if let title = self.buttonSave.title(for: .normal) {
             if title == "Save" {
-                if let data = self.dataToSave, let id = data["id"].int, let name = self.textField.text {
+                if let data = self.dataToSave, let id = data["_id"].string, let name = self.textField.text {
                    self.networkService.putTodoList(id: id, name: name, success: { _ in
                     self.showAlert(title: "Success", message: "Data has been updated!")
                     self.resetForm()

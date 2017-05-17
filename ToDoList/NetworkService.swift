@@ -12,7 +12,7 @@ import SwiftyJSON
 
 class NetworkService {
     
-    let baseURL: String = "https://private-bf922-ukdwtodolist.apiary-mock.com/todos"
+    let baseURL: String = "http://ec2-54-169-2-147.ap-southeast-1.compute.amazonaws.com:3000/todo"
     var sessionManager: SessionManager
     
     init() {
@@ -56,7 +56,7 @@ class NetworkService {
         }
     }
     
-    func putTodoList(id: Int, name: String, success: @escaping ()->Void, failure: @escaping (_ error: String)->Void) {
+    func putTodoList(id: String, name: String, success: @escaping ()->Void, failure: @escaping (_ error: String)->Void) {
         
         let parameters: [String: Any] = [
             "id": id,
@@ -75,13 +75,13 @@ class NetworkService {
         }
     }
     
-    func deleteTodoList(id: Int, success: @escaping ()->Void, failure: @escaping (_ error: String)->Void) {
+    func deleteTodoList(id: String, success: @escaping ()->Void, failure: @escaping (_ error: String)->Void) {
         
         let parameters: [String: Any] = [
             "id": id
         ]
         
-        self.sessionManager.request(self.baseURL, method: .delete, parameters: parameters)
+        self.sessionManager.request(self.baseURL, method: .delete, parameters: parameters, encoding: URLEncoding.httpBody, headers: nil)
             .validate(statusCode: 200..<300)
             .responseJSON { response in
                 switch response.result {
